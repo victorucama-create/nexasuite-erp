@@ -1,0 +1,108 @@
+/* Mobile Menu */
+.mobile-menu {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 10px 5px;
+  border-top: 1px solid var(--color-border);
+  z-index: var(--z-fixed);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  color: var(--color-text-light);
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  flex: 1;
+  max-width: 80px;
+}
+
+.mobile-menu-item:hover {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.mobile-menu-item.active {
+  color: var(--brand-secondary);
+  background: rgba(52, 152, 219, 0.1);
+}
+
+.mobile-menu-item i {
+  font-size: 1.2rem;
+}
+
+.mobile-menu-item span {
+  font-size: 0.7rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Quick Action Button */
+.mobile-menu-action {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--brand-secondary) 0%, var(--brand-accent) 100%);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.4);
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.mobile-menu-action:hover {
+  transform: translateX(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(52, 152, 219, 0.6);
+}
+
+.mobile-menu-action:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+.mobile-menu-action i {
+  font-size: 1.5rem;
+}
+
+/* Safe Area for iPhone X and newer */
+@supports (padding: max(0px)) {
+  .mobile-menu {
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Hide on desktop */
+@media (min-width: 1024px) {
+  .mobile-menu {
+    display: none;
+  }
+}
+
+/* Dark Mode */
+[data-theme="dark"] .mobile-menu {
+  background: var(--color-bg-alt);
+  border-top-color: var(--color-border);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .mobile-menu-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
