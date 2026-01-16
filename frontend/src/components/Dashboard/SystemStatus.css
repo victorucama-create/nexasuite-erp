@@ -1,0 +1,370 @@
+/* System Status */
+.system-status {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Header */
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.header-left h3 {
+  margin: 0 0 8px 0;
+  font-size: 1.2rem;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-left h3 i {
+  color: var(--brand-secondary);
+}
+
+.last-update {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+.refresh-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.refresh-status:hover:not(:disabled) {
+  background: var(--brand-secondary);
+  color: white;
+  border-color: var(--brand-secondary);
+}
+
+.refresh-status:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* System Health */
+.system-health {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  padding: 20px;
+  background: var(--color-bg);
+  border-radius: 10px;
+}
+
+.health-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-label {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  font-weight: 500;
+}
+
+.metric-bar {
+  width: 100%;
+  height: 8px;
+  background: var(--color-border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.metric-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.metric-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.metric-value.large {
+  font-size: 1.2rem;
+}
+
+/* Services Status */
+.services-status h4 {
+  margin: 0 0 15px 0;
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+.services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 15px;
+  background: var(--color-bg);
+  border-radius: 8px;
+  border-left: 4px solid;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.service-item:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.service-icon {
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.service-icon i {
+  font-size: 1.2rem;
+}
+
+.service-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.service-name {
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.service-meta {
+  display: flex;
+  gap: 15px;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+.service-latency,
+.service-uptime {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.service-status {
+  flex-shrink: 0;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Recent Incidents */
+.recent-incidents h4 {
+  margin: 0 0 15px 0;
+  font-size: 1.1rem;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.recent-incidents h4 i {
+  color: var(--brand-warning);
+}
+
+.incidents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.incident-item {
+  padding: 15px;
+  background: #fff8e1;
+  border-radius: 8px;
+  border-left: 4px solid #f39c12;
+}
+
+.incident-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.incident-status {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.incident-status.investigating {
+  background: #ffeaa7;
+  color: #e17055;
+}
+
+.incident-status.identified {
+  background: #fab1a0;
+  color: #d63031;
+}
+
+.incident-status.monitoring {
+  background: #a29bfe;
+  color: #6c5ce7;
+}
+
+.incident-status.resolved {
+  background: #55efc4;
+  color: #00b894;
+}
+
+.incident-description {
+  margin: 0 0 10px 0;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.incident-time {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+/* System Actions */
+.system-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.system-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 15px 10px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.system-action:hover {
+  background: var(--brand-secondary);
+  color: white;
+  border-color: var(--brand-secondary);
+  transform: translateY(-2px);
+}
+
+.system-action i {
+  font-size: 1.2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .system-health {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .service-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  
+  .service-status {
+    align-self: flex-start;
+  }
+  
+  .system-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .system-health {
+    grid-template-columns: 1fr;
+  }
+  
+  .status-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .refresh-status {
+    align-self: flex-start;
+  }
+}
+
+/* Dark Mode */
+[data-theme="dark"] .system-status {
+  background: var(--color-bg-alt);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .system-health,
+[data-theme="dark"] .service-item {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .service-icon {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .incident-item {
+  background: rgba(243, 156, 18, 0.1);
+}
+
+[data-theme="dark"] .system-action {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .system-action:hover {
+  background: var(--brand-secondary);
+}
