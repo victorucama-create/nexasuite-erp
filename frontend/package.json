@@ -3,16 +3,43 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "description": "NexaSuite ERP Frontend - Sistema Integrado All-in-One",
+  "author": "NexaSuite Team",
+  "license": "MIT",
+  "homepage": "https://nexasuite-erp.onrender.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seu-usuario/nexasuite-erp.git"
+  },
+  "keywords": [
+    "erp",
+    "contabilidade",
+    "crm",
+    "react",
+    "vite",
+    "moçambique",
+    "gestão"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
+    "predeploy": "npm run build",
+    "deploy": "echo 'Deploy command - configure for your hosting'",
+    "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext js,jsx --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md,json}\"",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.15.0",
+    "react-query": "^3.39.3",
+    "react-error-boundary": "^4.0.10",
     "react-hot-toast": "^2.4.1",
     "react-helmet-async": "^2.0.3",
     "zustand": "^4.4.1",
@@ -23,18 +50,36 @@
     "jspdf-autotable": "^3.8.1",
     "xlsx": "^0.18.5",
     "date-fns": "^2.30.0",
-    "clsx": "^2.0.0"
+    "clsx": "^2.0.0",
+    "validator": "^13.11.0",
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "socket.io-client": "^4.7.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
+    "@types/node": "^20.5.9",
+    "@types/validator": "^13.11.0",
     "@vitejs/plugin-react": "^4.0.4",
     "vite": "^4.4.11",
+    "vitest": "^0.34.6",
+    "@vitest/ui": "^0.34.6",
+    "@vitest/coverage-v8": "^0.34.6",
+    "jsdom": "^22.1.0",
+    "@testing-library/react": "^14.0.0",
+    "@testing-library/jest-dom": "^6.1.4",
+    "@testing-library/user-event": "^14.4.3",
     "eslint": "^8.48.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
-    "@typescript-eslint/parser": "^6.7.2"
+    "@typescript-eslint/parser": "^6.7.2",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "autoprefixer": "^10.4.15",
+    "postcss": "^8.4.29",
+    "tailwindcss": "^3.3.3"
   },
   "browserslist": {
     "production": [
@@ -42,16 +87,28 @@
       "not dead",
       "not op_mini all",
       "not ie > 0",
-      "not ie_mob > 0"
+      "not ie_mob > 0",
+      "not baidu > 0",
+      "not kaios > 0",
+      "not opera_mini all",
+      "not android <= 4.4",
+      "not samsung <= 4"
     ],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
-      "last 1 safari version"
+      "last 1 safari version",
+      "last 1 edge version"
     ]
   },
   "engines": {
     "node": ">=18.0.0",
-    "npm": ">=9.0.0"
-  }
+    "npm": ">=9.0.0",
+    "yarn": ">=1.22.0"
+  },
+  "volta": {
+    "node": "18.17.1",
+    "yarn": "1.22.19"
+  },
+  "proxy": "http://localhost:3001"
 }
