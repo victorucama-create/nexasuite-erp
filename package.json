@@ -2,6 +2,25 @@
   "name": "nexasuite-erp",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
+  "description": "NexaSuite ERP - Sistema Integrado All-in-One para Moçambique",
+  "author": "NexaSuite Team",
+  "license": "MIT",
+  "homepage": "https://nexasuite-erp.onrender.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/victorucama-create/nexasuite-erp.git"
+  },
+  "keywords": [
+    "erp",
+    "contabilidade",
+    "crm",
+    "moçambique",
+    "gestão",
+    "react",
+    "nodejs",
+    "business"
+  ],
   "workspaces": [
     "frontend",
     "backend"
@@ -9,9 +28,41 @@
   "scripts": {
     "build": "npm run build --workspace=frontend",
     "start": "npm start --workspace=backend",
-    "dev": "concurrently \"npm run dev --workspace=backend\" \"npm start --workspace=frontend\""
+    "dev": "concurrently --names \"BACKEND,FRONTEND\" --prefix-colors \"blue,green\" \"npm run dev --workspace=backend\" \"npm run dev --workspace=frontend\"",
+    "install-all": "npm install --workspace=frontend --workspace=backend",
+    "clean": "rm -rf frontend/node_modules backend/node_modules frontend/dist frontend/.turbo backend/.turbo node_modules package-lock.json",
+    "reinstall": "npm run clean && npm install",
+    "frontend": "npm run dev --workspace=frontend",
+    "backend": "npm run dev --workspace=backend",
+    "lint": "npm run lint --workspace=frontend",
+    "format": "npm run format --workspace=frontend",
+    "test": "npm run test --workspace=frontend",
+    "test:backend": "npm run test --workspace=backend"
   },
   "devDependencies": {
-    "concurrently": "^8.2.0"
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "volta": {
+    "node": "18.17.1",
+    "npm": "9.6.7"
   }
 }
