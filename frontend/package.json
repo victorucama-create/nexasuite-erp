@@ -1,0 +1,96 @@
+{
+  "name": "nexasuite-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "NexaSuite ERP Frontend - Sistema de Gestão Empresarial",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
+    "format": "prettier --write \"src/**/*.{js,jsx,css,md,json}\"",
+    "deploy": "npm run build && npm run export",
+    "analyze": "ANALYZE=true npm run build"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.20.0",
+    "axios": "^1.6.2",
+    "chart.js": "^4.4.0",
+    "react-chartjs-2": "^5.2.0",
+    "socket.io-client": "^4.7.2",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.8.2",
+    "xlsx": "^0.18.5",
+    "date-fns": "^2.30.0",
+    "validator": "^13.11.0",
+    "clsx": "^2.0.0",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.12.0",
+    "framer-motion": "^10.16.5",
+    "zustand": "^4.4.7",
+    "react-helmet-async": "^2.0.4",
+    "react-error-boundary": "^4.0.11",
+    "react-query": "^3.39.3",
+    "react-hook-form": "^7.48.2",
+    "@hookform/resolvers": "^3.3.2",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^8.55.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "postcss": "^8.4.32",
+    "prettier": "^3.1.1",
+    "tailwindcss": "^3.3.6",
+    "vite": "^5.0.8",
+    "vitest": "^1.1.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seu-usuario/nexasuite-erp.git"
+  },
+  "keywords": [
+    "erp",
+    "contabilidade",
+    "crm",
+    "moçambique",
+    "gestão",
+    "react",
+    "frontend"
+  ],
+  "author": "NexaSuite Team <contato@nexasuite.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/seu-usuario/nexasuite-erp/issues"
+  },
+  "homepage": "https://nexasuite.com"
+}
