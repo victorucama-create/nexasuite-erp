@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="NexaSuite ERP - Sistema Integrado de Gestão Empresarial All-in-One">
+    <meta name="keywords" content="ERP, Contabilidade, CRM, Moçambique, Gestão, Inventário, Vendas">
+    <meta name="author" content="NexaSuite Team">
+    
+    <!-- Primary Meta Tags -->
+    <title>NexaSuite ERP | Sistema de Gestão Integrado</title>
+    <meta property="og:title" content="NexaSuite ERP | Sistema de Gestão Integrado">
+    <meta property="og:description" content="Sistema ERP completo para gestão empresarial em Moçambique e países lusófonos">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nexasuite.com">
+    <meta property="og:image" content="https://nexasuite.com/og-image.png">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="NexaSuite ERP">
+    <meta name="twitter:description" content="Gestão empresarial completa em uma plataforma">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2c3e50">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https: data:; img-src 'self' https: data: blob:;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.css" as="style">
+    <link rel="preload" href="/src/main.jsx" as="script">
+  </head>
+  <body>
+    <div id="root">
+      <!-- Loading splash screen -->
+      <div class="loading-screen">
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+          <div class="loading-text">
+            <h2>NexaSuite ERP</h2>
+            <p>Carregando sistema...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Error Boundary Fallback -->
+    <div id="error-boundary" style="display: none;">
+      <div class="error-container">
+        <h1>😕 Ocorreu um erro</h1>
+        <p>Por favor, recarregue a página ou entre em contato com o suporte.</p>
+        <button onclick="window.location.reload()">Recarregar Página</button>
+      </div>
+    </div>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator && window.location.hostname !== 'localhost') {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+    
+    <!-- Global error handler -->
+    <script>
+      window.addEventListener('error', function(e) {
+        console.error('Global error:', e.error);
+        const root = document.getElementById('root');
+        const errorBoundary = document.getElementById('error-boundary');
+        if (root && errorBoundary) {
+          root.style.display = 'none';
+          errorBoundary.style.display = 'block';
+        }
+      });
+      
+      // Global loading state
+      document.addEventListener('DOMContentLoaded', function() {
+        const root = document.getElementById('root');
+        if (root) {
+          root.innerHTML = '';
+        }
+      });
+    </script>
+    
+    <script type="module" src="/src/main.jsx"></script>
+    
+    <style>
+      /* Critical CSS for initial load */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Inter', sans-serif;
+        background: #f5f7fa;
+        color: #333;
+        overflow-x: hidden;
+      }
+      
+      #root {
+        min-height: 100vh;
+      }
+      
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      
+      .loading-spinner {
+        text-align: center;
+        color: white;
+      }
+      
+      .spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .loading-text h2 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        font-weight: 700;
+      }
+      
+      .loading-text p {
+        opacity: 0.8;
+      }
+      
+      .error-container {
+        max-width: 500px;
+        margin: 100px auto;
+        padding: 40px;
+        background: white;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      }
+      
+      .error-container h1 {
+        color: #e74c3c;
+        margin-bottom: 20px;
+      }
+      
+      .error-container button {
+        background: #3498db;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+      }
+    </style>
+  </body>
+</html>
