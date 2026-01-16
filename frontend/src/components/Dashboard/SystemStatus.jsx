@@ -166,3 +166,108 @@ const SystemStatus = () => {
           <div className="metric-label">Uptime</div>
           <div className="metric-value large">{formatUptime(systemMetrics.uptime)}</div>
         </div>
+      </div>
+
+      {/* Services Status */}
+      <div className="services-status">
+        <h4>Status dos Serviços</h4>
+        <div className="services-list">
+          {services.map((service, index) => (
+            <motion.div
+              key={service.name}
+              className="service-item"
+              onClick={() => handleServiceClick(service)}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: index * 0.05 }}
+              style={{ borderLeftColor: getStatusColor(service.status) }}
+            >
+              <div className="service-icon">
+                <i className={getStatusIcon(service.status)} style={{ color: getStatusColor(service.status) }} />
+              </div>
+              
+              <div className="service-info">
+                <div className="service-name">{service.name}</div>
+                <div className="service-meta">
+                  <span className="service-latency">
+                    <i className="fas fa-bolt" /> {service.latency}ms
+                  </span>
+                  <span className="service-uptime">
+                    <i className="fas fa-chart-line" /> {service.uptime}%
+                  </span>
+                </div>
+              </div>
+              
+              <div className="service-status">
+                <span 
+                  className="status-badge"
+                  style={{ 
+                    backgroundColor: `${getStatusColor(service.status)}20`,
+                    color: getStatusColor(service.status)
+                  }}
+                >
+                  {service.status === 'operational' ? 'Operacional' : 
+                   service.status === 'degraded' ? 'Degradado' : 
+                   service.status === 'outage' ? 'Indisponível' : 'Manutenção'}
+                </span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Recent Incidents */}
+      {incidents.length > 0 && (
+        <div className="recent-incidents">
+          <h4>
+            <i className="fas fa-exclamation-triangle" /> Incidentes Recentes
+          </h4>
+          <div className="incidents-list">
+            {incidents.map((incident) => (
+              <div key={incident.id} className="incident-item">
+                <div className="incident-header">
+                  <strong>{incident.service}</strong>
+                  <span className={`incident-status ${incident.status}`}>
+                    {incident.status === 'investigating' ? 'Investigando' : 
+                     incident.status === 'identified' ? 'Identificado' : 
+                     incident.status === 'monitoring' ? 'Monitorando' : 'Resolvido'}
+                  </span>
+                </div>
+                <p className="incident-description">{incident.description}</p>
+                <div className="incident-time">
+                  <i className="fas fa-clock" /> 
+                  {new Date(incident.started).toLocaleString('pt-BR', {
+                    day: '2-digit',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* System Actions */}
+      <div className="system-actions">
+        <button className="system-action">
+          <i className="fas fa-download" /> Backup Agora
+        </button>
+        <button className="system-action">
+          <i className="fas fa-chart-bar" /> Ver Métricas Detalhadas
+        </button>
+        <button className="system-action">
+          <i className="fas fa-bell" /> Configurar Alertas
+        </button>
+        <button className="system-action">
+          <i className="fas fa-cog" /> Configurações Avançadas
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default SystemStatus;
