@@ -1,12 +1,18 @@
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const path = require('path');
-const jwt = require('jsonwebtoken');
-require('dotenv').config();
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
+
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Mock database
 const mockData = {
@@ -70,18 +76,43 @@ const mockData = {
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://nexasuite-erp.onrender.com']
-    : ['http://localhost:3000', 'http://localhost:5173'],
+    ? ['https://nexasuite-erp.onrender.com', 'http://nexasuite-erp.onrender.com']
+    : ['http://localhost:3000', 'http://localhost:5173', 'http://127.0.0.1:5173'],
   credentials: true
 }));
 
-app.use(helmet());
-app.use(morgan('dev'));
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", process.env.NODE_ENV === 'production' ? 'https://nexasuite-erp.onrender.com' : 'http://localhost:*']
+    }
+  },
+  crossOriginEmbedderPolicy: false
+}));
+
+app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// Serve static files from frontend
+if (process.env.NODE_ENV === 'production') {
+  const frontendPath = path.join(__dirname, '../frontend/dist');
+  console.log(`📁 Servindo frontend de: ${frontendPath}`);
+  app.use(express.static(frontendPath));
+}
+
 // Authentication middleware
 const authMiddleware = (req, res, next) => {
+  // Skip auth for public routes
+  const publicRoutes = ['/api/health', '/api/auth/login', '/api/auth/refresh'];
+  if (publicRoutes.includes(req.path)) {
+    return next();
+  }
+  
   const authHeader = req.headers.authorization;
   
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
@@ -109,6 +140,15 @@ const authMiddleware = (req, res, next) => {
   }
 };
 
+// Apply auth middleware to all API routes except public ones
+app.use('/api', (req, res, next) => {
+  const publicRoutes = ['/api/health', '/api/auth/login', '/api/auth/refresh'];
+  if (publicRoutes.includes(req.path)) {
+    return next();
+  }
+  authMiddleware(req, res, next);
+});
+
 // ========== HEALTH CHECK ==========
 app.get('/api/health', (req, res) => {
   res.json({
@@ -117,7 +157,10 @@ app.get('/api/health', (req, res) => {
     message: 'NexaSuite ERP API está funcionando',
     timestamp: new Date().toISOString(),
     version: '1.0.0',
-    environment: process.env.NODE_ENV || 'development'
+    environment: process.env.NODE_ENV || 'development',
+    nodeVersion: process.version,
+    platform: process.platform,
+    memoryUsage: process.memoryUsage()
   });
 });
 
@@ -175,15 +218,15 @@ app.post('/api/auth/refresh', (req, res) => {
   }
 });
 
-app.get('/api/auth/me', authMiddleware, (req, res) => {
+app.get('/api/auth/me', (req, res) => {
   res.json({
     success: true,
-    user: req.user
+    user: req.user || mockData.users[0]
   });
 });
 
 // ========== DASHBOARD ROUTES ==========
-app.get('/api/dashboard', authMiddleware, (req, res) => {
+app.get('/api/dashboard', (req, res) => {
   res.json({
     success: true,
     data: {
@@ -237,7 +280,7 @@ app.get('/api/dashboard', authMiddleware, (req, res) => {
 });
 
 // ========== ACCOUNTING ROUTES ==========
-app.get('/api/accounting/transactions', authMiddleware, (req, res) => {
+app.get('/api/accounting/transactions', (req, res) => {
   const { page = 1, limit = 20, type, startDate, endDate } = req.query;
   
   let transactions = mockData.transactions;
@@ -271,7 +314,7 @@ app.get('/api/accounting/transactions', authMiddleware, (req, res) => {
   });
 });
 
-app.post('/api/accounting/transactions', authMiddleware, (req, res) => {
+app.post('/api/accounting/transactions', (req, res) => {
   const newTransaction = {
     id: mockData.transactions.length + 1,
     ...req.body,
@@ -289,7 +332,7 @@ app.post('/api/accounting/transactions', authMiddleware, (req, res) => {
   });
 });
 
-app.get('/api/accounting/accounts', authMiddleware, (req, res) => {
+app.get('/api/accounting/accounts', (req, res) => {
   const accounts = [
     { id: 1, code: '1', name: 'Ativo', type: 'asset', balance: 1250450.00 },
     { id: 2, code: '1.1', name: 'Ativo Circulante', type: 'asset', balance: 450000.00 },
@@ -306,7 +349,7 @@ app.get('/api/accounting/accounts', authMiddleware, (req, res) => {
 });
 
 // Reports
-app.get('/api/accounting/reports/balance-sheet', authMiddleware, (req, res) => {
+app.get('/api/accounting/reports/balance-sheet', (req, res) => {
   res.json({
     success: true,
     data: {
@@ -329,7 +372,7 @@ app.get('/api/accounting/reports/balance-sheet', authMiddleware, (req, res) => {
   });
 });
 
-app.get('/api/accounting/reports/income-statement', authMiddleware, (req, res) => {
+app.get('/api/accounting/reports/income-statement', (req, res) => {
   res.json({
     success: true,
     data: {
@@ -344,7 +387,7 @@ app.get('/api/accounting/reports/income-statement', authMiddleware, (req, res) =
 });
 
 // ========== CRM ROUTES ==========
-app.get('/api/crm/customers', authMiddleware, (req, res) => {
+app.get('/api/crm/customers', (req, res) => {
   const { page = 1, limit = 20, status, search } = req.query;
   
   let customers = mockData.customers;
@@ -380,7 +423,7 @@ app.get('/api/crm/customers', authMiddleware, (req, res) => {
   });
 });
 
-app.post('/api/crm/customers', authMiddleware, (req, res) => {
+app.post('/api/crm/customers', (req, res) => {
   const newCustomer = {
     id: mockData.customers.length + 1,
     ...req.body,
@@ -399,7 +442,7 @@ app.post('/api/crm/customers', authMiddleware, (req, res) => {
   });
 });
 
-app.get('/api/crm/sales', authMiddleware, (req, res) => {
+app.get('/api/crm/sales', (req, res) => {
   const sales = [
     {
       id: 1001,
@@ -429,7 +472,7 @@ app.get('/api/crm/sales', authMiddleware, (req, res) => {
   });
 });
 
-app.post('/api/crm/sales', authMiddleware, (req, res) => {
+app.post('/api/crm/sales', (req, res) => {
   const newSale = {
     id: 1000 + mockData.transactions.length + 1,
     ...req.body,
@@ -445,7 +488,7 @@ app.post('/api/crm/sales', authMiddleware, (req, res) => {
   });
 });
 
-app.get('/api/crm/inventory/products', authMiddleware, (req, res) => {
+app.get('/api/crm/inventory/products', (req, res) => {
   const { lowStock } = req.query;
   
   let products = mockData.products;
@@ -461,14 +504,14 @@ app.get('/api/crm/inventory/products', authMiddleware, (req, res) => {
 });
 
 // ========== SYSTEM ROUTES ==========
-app.get('/api/system/users', authMiddleware, (req, res) => {
+app.get('/api/system/users', (req, res) => {
   res.json({
     success: true,
     data: mockData.users
   });
 });
 
-app.get('/api/system/settings/general', authMiddleware, (req, res) => {
+app.get('/api/system/settings/general', (req, res) => {
   res.json({
     success: true,
     data: {
@@ -487,7 +530,7 @@ app.get('/api/system/settings/general', authMiddleware, (req, res) => {
   });
 });
 
-app.put('/api/system/settings/general', authMiddleware, (req, res) => {
+app.put('/api/system/settings/general', (req, res) => {
   res.json({
     success: true,
     message: 'Configurações atualizadas com sucesso',
@@ -496,7 +539,7 @@ app.put('/api/system/settings/general', authMiddleware, (req, res) => {
 });
 
 // ========== FILE UPLOAD ==========
-app.post('/api/upload', authMiddleware, (req, res) => {
+app.post('/api/upload', (req, res) => {
   // Simulate file upload
   const fileUrl = `https://api.nexasuite.com/uploads/${Date.now()}-file.pdf`;
   
@@ -533,7 +576,7 @@ const mockEndpoints = [
 ];
 
 mockEndpoints.forEach(endpoint => {
-  app.get(endpoint, authMiddleware, (req, res) => {
+  app.get(endpoint, (req, res) => {
     res.json({
       success: true,
       data: [],
@@ -541,7 +584,7 @@ mockEndpoints.forEach(endpoint => {
     });
   });
   
-  app.post(endpoint, authMiddleware, (req, res) => {
+  app.post(endpoint, (req, res) => {
     res.json({
       success: true,
       message: 'Operação realizada com sucesso',
@@ -550,14 +593,13 @@ mockEndpoints.forEach(endpoint => {
   });
 });
 
-// ========== SERVE FRONTEND IN PRODUCTION ==========
+// ========== HANDLE REACT ROUTING IN PRODUCTION ==========
 if (process.env.NODE_ENV === 'production') {
-  // Serve static files from Vite build (dist folder)
-  app.use(express.static(path.join(__dirname, '../../frontend/dist')));
-  
-  // Handle React routing, return all requests to React app
+  // All other GET requests not handled by API will return the React app
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/dist', 'index.html'));
+    const indexPath = path.join(__dirname, '../frontend/dist/index.html');
+    console.log(`📄 Servindo index.html de: ${indexPath}`);
+    res.sendFile(indexPath);
   });
 } else {
   // Development route
@@ -583,6 +625,11 @@ if (process.env.NODE_ENV === 'production') {
 // ========== ERROR HANDLING ==========
 // 404 Handler
 app.use('*', (req, res) => {
+  if (req.accepts('html') && process.env.NODE_ENV === 'production') {
+    const indexPath = path.join(__dirname, '../frontend/dist/index.html');
+    return res.sendFile(indexPath);
+  }
+  
   res.status(404).json({
     success: false,
     message: 'Rota não encontrada',
@@ -615,14 +662,14 @@ app.listen(PORT, HOST, () => {
   console.log(`   📡 Porta: ${PORT}`);
   console.log(`   🌍 Host: ${HOST}`);
   console.log(`   🏭 Ambiente: ${process.env.NODE_ENV || 'development'}`);
-  console.log(`   📅 Data: ${new Date().toLocaleString()}`);
+  console.log(`   📅 Data: ${new Date().toLocaleString('pt-MZ')}`);
   console.log('   ==========================================');
   console.log(`   👤 Demo Credentials:`);
   console.log(`      Email: admin@nexasuite.com`);
   console.log(`      Senha: Nexa@2025Master!`);
   console.log('   ==========================================');
-  console.log(`   🔗 Health Check: http://localhost:${PORT}/api/health`);
-  console.log(`   🔗 API Base: http://localhost:${PORT}/api`);
+  console.log(`   🔗 Health Check: http://${HOST}:${PORT}/api/health`);
+  console.log(`   🔗 API Base: http://${HOST}:${PORT}/api`);
   console.log('   ==========================================');
   
   // Log all registered routes
