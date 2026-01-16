@@ -1,0 +1,17 @@
+{
+  "name": "nexasuite-erp",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=frontend",
+    "start": "npm start --workspace=backend",
+    "dev": "concurrently \"npm run dev --workspace=backend\" \"npm start --workspace=frontend\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
