@@ -21,9 +21,9 @@
     "gestão"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
+    "dev": "npx vite",
+    "build": "npx vite build",
+    "preview": "npx vite preview",
     "predeploy": "npm run build",
     "deploy": "echo 'Deploy command - configure for your hosting'",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
