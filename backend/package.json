@@ -1,24 +1,37 @@
 {
-  "name": "nexasuite-backend",
+  "name": "nexasuite-frontend",
   "version": "1.0.0",
-  "description": "NexaSuite ERP Backend API",
-  "main": "src/server.js",
-  "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
-    "render-build": "echo 'Build do backend completado'"
-  },
+  "private": true,
   "dependencies": {
-    "express": "^4.18.2",
-    "cors": "^2.8.5",
-    "helmet": "^7.0.0",
-    "morgan": "^1.10.0",
-    "dotenv": "^16.0.3"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.14.0",
+    "react-scripts": "5.0.1",
+    "axios": "^1.4.0",
+    "chart.js": "^4.3.0",
+    "react-chartjs-2": "^5.2.0",
+    "zustand": "^4.3.0",
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.28",
+    "xlsx": "^0.18.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "CI=false && react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": ["react-app"]
+  },
+  "browserslist": {
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
-  },
-  "engines": {
-    "node": ">=16.0.0"
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0"
   }
 }
