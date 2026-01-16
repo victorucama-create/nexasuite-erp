@@ -1,0 +1,352 @@
+/* Recent Activities */
+.recent-activities {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.activities-header {
+  padding: 20px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.activities-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.activities-header h3 i {
+  color: var(--brand-secondary);
+}
+
+.activities-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-light);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  border-color: var(--brand-secondary);
+  color: var(--brand-secondary);
+}
+
+.filter-btn.active {
+  background: var(--brand-secondary);
+  color: white;
+  border-color: var(--brand-secondary);
+}
+
+/* Body */
+.activities-body {
+  flex: 1;
+  overflow-y: auto;
+  max-height: 400px;
+}
+
+.activities-loading,
+.activities-error,
+.activities-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--color-text-light);
+}
+
+.activities-error i {
+  font-size: 3rem;
+  color: var(--brand-danger);
+  margin-bottom: 15px;
+}
+
+.activities-empty i {
+  font-size: 3rem;
+  color: var(--color-border);
+  margin-bottom: 15px;
+}
+
+.retry-btn {
+  margin-top: 15px;
+  padding: 8px 16px;
+  background: var(--brand-secondary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.retry-btn:hover {
+  background: var(--brand-primary);
+}
+
+/* Activities List */
+.activities-list {
+  padding: 10px;
+}
+
+.activity-item {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.activity-item:hover {
+  background: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+.activity-item:not(:last-child) {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--color-bg);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activity-icon i {
+  font-size: 1.2rem;
+}
+
+.activity-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+
+.activity-description {
+  font-weight: 500;
+  color: var(--color-text);
+  flex: 1;
+}
+
+.activity-time {
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+  white-space: nowrap;
+}
+
+.activity-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.activity-user {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--color-text-light);
+}
+
+.activity-user i {
+  font-size: 0.8rem;
+}
+
+/* Activity Details */
+.activity-details {
+  margin-top: 10px;
+}
+
+.details-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: var(--brand-secondary);
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 5px 0;
+  transition: all 0.2s ease;
+}
+
+.details-toggle:hover {
+  color: var(--brand-primary);
+}
+
+.details-toggle i {
+  transition: transform 0.2s ease;
+}
+
+.activity-details.expanded .details-toggle i {
+  transform: rotate(180deg);
+}
+
+.details-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.activity-details.expanded .details-content {
+  max-height: 200px;
+  margin-top: 10px;
+}
+
+.details-content pre {
+  background: var(--color-bg);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  overflow: auto;
+  margin: 0;
+  border: 1px solid var(--color-border);
+}
+
+/* Footer */
+.activities-footer {
+  padding: 15px 20px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.view-all-btn,
+.export-btn {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-all-btn {
+  background: var(--color-bg);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.view-all-btn:hover {
+  background: var(--brand-primary);
+  color: white;
+  border-color: var(--brand-primary);
+}
+
+.export-btn {
+  background: var(--brand-secondary);
+  color: white;
+  border: none;
+}
+
+.export-btn:hover {
+  background: var(--brand-accent);
+}
+
+/* Scrollbar */
+.activities-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.activities-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.activities-body::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+.activities-body::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-light);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .activities-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .activities-filters {
+    justify-content: center;
+  }
+  
+  .activity-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .activity-time {
+    align-self: flex-end;
+  }
+  
+  .activities-footer {
+    flex-direction: column;
+  }
+}
+
+/* Dark Mode */
+[data-theme="dark"] .recent-activities {
+  background: var(--color-bg-alt);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .activity-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .details-content pre {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .view-all-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--color-border);
+}
+
+[data-theme="dark"] .view-all-btn:hover {
+  background: var(--brand-primary);
+}
