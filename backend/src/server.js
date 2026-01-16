@@ -552,7 +552,7 @@ mockEndpoints.forEach(endpoint => {
 
 // ========== SERVE FRONTEND IN PRODUCTION ==========
 if (process.env.NODE_ENV === 'production') {
-  // Serve static files from frontend build
+  // Serve static files from Vite build (dist folder)
   app.use(express.static(path.join(__dirname, '../../frontend/dist')));
   
   // Handle React routing, return all requests to React app
